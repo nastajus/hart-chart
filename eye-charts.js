@@ -9,7 +9,9 @@ function randomLetter(quantity) {
     var alphabetResults = "";
 
     do {
-        alphabetResults += Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, quantity);
+        var anyAlphabetResult = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, quantity);
+
+        alphabetResults += uniqueInOrder(anyAlphabetResult);
     } 
     while (alphabetResults.length < quantity);
 
@@ -49,3 +51,16 @@ function isElement(obj) {
   }
   
 
+function uniqueInOrder(x) {
+    var result = "";
+    const input = Array.isArray(x) ? x : x.split('');
+
+    for (let i = 0; i < input.length; ++i) {
+        if (input[i] == input[i + 1]) continue;
+        //result.push(input[i]);
+        result += input[i];
+    }
+
+    return result;
+    //return result.replace(',', '');
+}
