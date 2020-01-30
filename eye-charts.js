@@ -5,7 +5,29 @@ function randomLetter(quantity) {
     if (typeof quantity != 'number') return null;
     /* actual logic check */
     if (quantity < 1) return null;
-    return Math.random().toString(35).replace(/[^a-z]+/g, '').substr(0, quantity);
+    console.log(quantity);
+    
+    /* bug: seeems to die at ~8  to ~10 chars... */
+    // oh, it's hitting... numbers i see... and those numbers are being replaced with ''... hmm.
+    //okay, i get it now.  cool. rewritten.
+
+    var alphabetResults = "";
+
+    do {
+        alphabetResults += Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, quantity);
+    } 
+    while (alphabetResults.length < quantity);
+
+
+    return alphabetResults.substr(0,quantity).toUpperCase();
+
+    //Math.random()
+    //out put would look like
+    //0.6631204630982128
+
+    //.toString(36) includes all 0-9 and all a-z. interesting. 
+    
+
 }
 
 function createElementGridCellIn(inputLetters, insideElement) {
@@ -13,7 +35,10 @@ function createElementGridCellIn(inputLetters, insideElement) {
     if (typeof inputLetters != 'string') return;
     if (!isElement(insideElement)) return;
 
+    /* splits apart per character with just '' */
     var chars = inputLetters.split('');
+    console.log(chars);
+
     for (var c in chars) {
         var newElement = document.createElement('div');
         newElement.id = chars[c]; newElement.className = "grid-item";
