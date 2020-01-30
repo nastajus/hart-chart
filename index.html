@@ -9,7 +9,10 @@
 
     <script>
         window.onload = function() {
-            alert( randomLetter() );
+            //alert( randomLetter() );
+            var allLtetters = randomLetter(100);
+            var inputElement = document.getElementById('yoDawg');
+            createElementGridCellIn(allLtetters, inputElement);
         }
     </script>
 
@@ -17,8 +20,8 @@
     <link rel="stylesheet" type="text/css" href="eye-chart-style.css">
 </head>
 <body>
-    <div class="container">
-        asdf
+    <div class="grid-container" id="yoDawg">
+        <!-- insert dynamically here -->
     </div>
 </body>
 </html>
