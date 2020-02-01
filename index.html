@@ -5,20 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Eye Hart Chart</title>
-    <script type="text/javascript" src="eye-charts.js"></script>
+    <script type="text/javascript" src="src/eye-charts.js"></script>
+    <script type="text/javascript" src="lib/pako/pako.js"></script>
 
     <script>
         window.onload = function() {
             //alert( randomLetter() );
-            var allLetters = randomLetter(64);
+            var allLetters = randomLetters(64);
             var inputElement = document.getElementById('yoDawg');
             createElementGridCellIn(allLetters, inputElement);
+
+
+            /*
+            //try 1... works great... until it doesn't... 
+            //var result = convertBase(allLetters.toLowerCase(), 36, 64);
+            var result = convertBase(allLetters.toLowerCase(), 26, 64);
+            console.log(allLetters, result);
+
+            //var r2 = convertBase(result, 64, 36)
+            var r2 = convertBase(result, 64, 26)
+            console.log(r2.toUpperCase());
+            */
+
+
+
+            //try 1B:  (try 9)
+            var yo = convertBase2(allLetters.toLowerCase(), 26, 1090);
+            var yo2 = convertBase2(yo, 1090, 26);
+            console.log(allLetters, yo, yo.length, yo2.toUpperCase());
+
+            /*
+            //try 2... works perfectly and tiny-code-footprint, but lengthens.!
+            var encodedData = window.btoa(allLetters); // encode a string
+            var decodedData = window.atob(encodedData); // decode the string
+
+            console.log(allLetters, encodedData, decodedData);
+            
+            */
+
+            /*
+            //try 3 ... ya, didn't think so. it mandates a number base, no.
+            //wait, so... my tests yielded exponents and NaNs... 
+            var h = "a";
+            console.log( parseInt(h, 16) );
+
+            var d = 16;
+            console.log( d.toString(10) );
+
+            var i = parseInt(allLetters, 26); //case irrelev.
+            console.log(allLetters, i);
+            */
+
+
+            /*
+            //try 3B... same.
+            var myString = "somestring";
+            var myNum = parseInt(myString, 36); // 2913141654103084 
+            //And you can use .toString to convert back to a string.
+            var myStringAgain = myNum.toString(36) // "somestring" 
+            //console.log(myNum, myStringAgain);
+
+            var a = allLetters.substr(0, 11); //errors start appearing... ugh.
+            var n = parseInt(a, 36); 
+            var s = n.toString(36).toUpperCase();
+            console.log(a, n, s);
+            */
+
+            /*
+            //try 4
+            var a = lzw_encode(allLetters);
+            var b = lzw_decode(a);
+            console.log(allLetters, a, b);
+            */
+
+            /*
+            //try 5
+            var test = "http://www.ScriptCompress.com - Simple Packer/Minify/Compress JavaScript Minify, Fixify & Prettify 75 JS Obfuscators In 1 App 25 JS Compressors (Gzip, Bzip, LZMA, etc) PHP, HTML & JS Packers In 1 App PHP Source Code Packers Text Packer HTML Packer or v2 or v3 or LZW Twitter Compress or More Words DNA & Base64 Packer (freq tool) or v2 JS JavaScript Code Golfer Encode Between Quotes Decode Almost Anything Password Protect Scripts HTML Minifier v2 or Encoder or Escaper CSS Minifier or Compressor v2 SVG Image Shrinker HTML To: SVG or SVGZ (Gzipped) HTML |||||||";
+            var compressed=en(test);
+            var decompressed=de(compressed);
+            console.log(test, decompressed, compressed);
+            */
+
+            /*
+            //try 6
+            var input = "test string";
+            var output = pako.gzip(input,{ to: 'string' });
+            var base64 = btoa(output)
+            alert("compressed gzip string - " + base64);
+            var sixtyFourNoMore = atob(base64);
+            var originalInput = pako.ungzip(sixtyFourNoMore,{ to: 'string' });
+            alert("uncompressed string - " + originalInput);
+            */
+
+            /*
+            //try 7
+            var X = prompt("Choose your number");
+            var Y = prompt("Choose your base");
+            var Z = [];
+            var M = -1;
+            var A = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+            var B = function() {
+                for (i = X; 0 < i; i = Math.floor(i / Y)) { 
+                    if(i % Y >= 10) { 
+                        Z.push(A[i % Y - 10]);
+                    } else { 
+                        Z.push(i % Y);
+                    } 
+                    M = M + 1;
+                } 
+                for (j = M; j >= 0; j--) {
+                    document.write(Z[j]);
+                } 
+            };
+
+            B(); // Call function
+            */
+
+            //try 8
+            // var yaa = new Blob([allLetters], {type: "application/json"});
+            // var rdr = new FileReader();
+            // var yo = rdr.readAsDataURL( yaa );
+            // console.log(yaa, yo);
+
+
+
+            /*
+            //try 8B
+            var file = new File([allLetters], "foo.txt", {
+                type: "text/plain",
+            });
+
+            
+            // var rdr = new FileReader();
+            // var yo = rdr.readAsDataURL( file );
+            // console.log(file, yo);
+
+            previewFile(file);
+
+
+            function previewFile(file) {
+
+                var reader  = new FileReader();
+
+                reader.onloadend = function () {
+
+                    var prefix = "data:text/plain;base64,";
+                    var output = reader.result.replace(prefix, '');
+                    console.log(output.length); //this is an ArrayBuffer
+                }
+
+                reader.readAsDataURL(file);
+            }
+            */
+
 
         }
     </script>
 
-    <link rel="stylesheet" type="text/css" href="dark-style.css">
-    <link rel="stylesheet" type="text/css" href="eye-chart-style.css">
+    <link rel="stylesheet" type="text/css" href="src/dark-style.css">
+    <link rel="stylesheet" type="text/css" href="src/eye-chart-style.css">
 
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
