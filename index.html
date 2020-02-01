@@ -15,9 +15,33 @@
             createElementGridCellIn(allLetters, inputElement);
 
 
-            var yo = convertBase(allLetters.toLowerCase(), 26, 1090);
-            var yo2 = convertBase(yo, 1090, 26);
-            console.log(allLetters, yo, yo.length, yo2.toUpperCase());
+            //offline when opened *directly* in browser *without* web host:
+            //returns: 
+            /*
+            origin: "file://"
+            protocol: "file:"
+            host: ""
+            hostname: ""
+            port: ""
+            pathname: "/C:/Users/GMunion/Documents/GitHub/eye-chart/index.html"
+            search: ""
+            hash: ""
+            href: "file:///C:/Users/GMunion/Documents/GitHub/eye-chart/index.html"
+            */
+
+            //online:
+            /*
+            origin: "https://nastajus.github.io"
+            protocol: "https:"
+            host: "nastajus.github.io"
+            hostname: "nastajus.github.io"
+            port: ""
+            pathname: "/hart-chart/"
+            search: ""
+            hash: ""
+            href: "https://nastajus.github.io/hart-chart/"
+            */
+            console.log(window.location);
 
         }
     </script>
