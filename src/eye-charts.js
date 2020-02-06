@@ -65,7 +65,12 @@ function uniqueInOrder(x) {
     //return result.replace(',', '');
 }
 
-function updateUrlAndHistory() {
+
+
+
+
+
+function updateUrlAndHistory(theLetters) {
   
     //offline when opened *directly* in browser *without* web host:
     //returns: 
@@ -100,7 +105,8 @@ function updateUrlAndHistory() {
 
 
     console.log(window.location);
-    experimentsInParams();
+    //experimentsInParams();
+    addParm('q', theLetters); 
 
 
     /* 
@@ -120,6 +126,43 @@ function updateUrlAndHistory() {
       default:
         //
     }
+}
+
+
+
+
+function fetchUrlParams() {
+  if ('URLSearchParams' in window) {
+    var searchParams = new URLSearchParams(window.location.search);
+    var result = searchParams.get('q');
+    return result;
+
+  }
+}
+
+
+
+
+
+/**
+ * no time, just do. make work, plz.
+ * https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
+ */
+function addParm(key, val) {
+  
+  if ('URLSearchParams' in window) {
+    var searchParams = new URLSearchParams(window.location.search);
+    searchParams.set(key, val);
+
+    //will cause a page load, which is undesirable:
+    //window.location.search = searchParams.toString();
+
+    //won't cause page load:
+    var newRelativePathQuery = window.location.pathname + '?' + searchParams.toString();
+    history.pushState(null, '', newRelativePathQuery);
+
+  }
+
 }
 
 

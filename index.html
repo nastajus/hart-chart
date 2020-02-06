@@ -9,12 +9,21 @@
 
     <script>
         window.onload = function() {
-            //alert( randomLetter() );
-            var allLetters = randomLetters(64);
-            var inputElement = document.getElementById('yoDawg');
-            createElementGridCellIn(allLetters, inputElement);
 
-            updateUrlAndHistory(allLetters);
+            var letters = "";            
+            var param = fetchUrlParams();
+            if (param) 
+            { 
+                letters = param;  
+            }
+            else 
+            {
+                letters = randomLetters(64);
+                updateUrlAndHistory(letters);
+            }
+
+            var inputElement = document.getElementById('yoDawg');
+            createElementGridCellIn(letters, inputElement);            
 
         }
     </script>
