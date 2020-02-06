@@ -97,8 +97,10 @@ function updateUrlAndHistory() {
     hash: ""
     href: "https://nastajus.github.io/hart-chart/"
     */
-    console.log(window.location);
 
+
+    console.log(window.location);
+    experimentsInParams();
 
 
     /* 
@@ -109,7 +111,27 @@ function updateUrlAndHistory() {
     //if (window.location.protocol.includes("file")) { }
     switch (window.location.protocol) {
       case "file:":
-        //pathname: "/C:/Users/GMunion/Documents/GitHub/eye-chart/index.html" (at least on my Windows)
+       
+        break;
+      case "http:":
+      case "https:":
+        //pathname: "/hart-chart/" (at least on Github)
+        break;
+      default:
+        //
+    }
+}
+
+
+
+
+
+
+/**
+ * delete this soon
+ */
+function experimentsInParams() {
+   //pathname: "/C:/Users/GMunion/Documents/GitHub/eye-chart/index.html" (at least on my Windows)
         // Pass in a string literal
 
         //var url = new URL('https://example.com?foo=1&bar=2');
@@ -121,7 +143,8 @@ function updateUrlAndHistory() {
         //var params = new URLSearchParams();
 
         //const params = new URLSearchParams();
-        const params = new URLSearchParams(window.location.search);
+        //const params = new URLSearchParams(window.location.search);
+        var params = new URLSearchParams(window.location.search);
         params.append('api_key', '1');
         params.append('foo', '1');
         params.append('baR', '122');
@@ -129,16 +152,40 @@ function updateUrlAndHistory() {
 
         //TODO: better understand access restrictions possible within JS objects...
         //eg why can't i see contents of this, and how can i build an equivalent myself, and verify if 
-        console.dir(url.search); //url.search, 
-        console.dir(url.searchParams); //url.search, 
-        console.dir(params); //url.search, 
+        console.dir(url.search); 
+        console.dir(url.searchParams); 
+        console.dir(params); 
+        console.dir(url.searchParams.toString()); 
+        console.dir(params.toString()); 
 
-        console.log(params.get('baR')); /// fuck ... ok!!! yikes!!
-        console.log(params.entries); //does nothing useful... shows "[native code]"
+        console.log(params.get('bar')); //returns null
+        console.log(params.get('baR')); //retuns 122 ... ok!!! cool.
+        console.log(params.entries); //does nothing useful... shows "f entries() { [native code] }"
+        console.log(params.searchParams); //returns undefined... because non-sensical. :/
+          //vscode lesson: if it "autocompletes" with preceding icon "abc" it's a garbage-autocomp.
+          //instead i should scroll down after typing . to the icons "purple isobox" for methods.
+          //those are the actual intellisense operating i suspect.
+
+          //params.searchParams.entries.entries.entries; //auto intellisense garbage. //sigh.
+
+          console.log(params.keys) //returns "f entries() { [native code] }"
+          console.log(params.values) //returns "f entries() { [native code] }"
+          console.log(params.getAll ) //returns "f entries() { [native code] }"
+
+          console.log(params.keys()) //returns "Iterator {} -i-" >> __proto__...
+          console.log(params.values()) //returns "Iterator {} -i-"
+          console.log(params.getAll() ) //returns "Uncaught TypeError: Failed to execute 'getAll' on 'URLSearchParams': 1 argument required, but only 0 present."    
+
+        
+          //ok, there's lots at play here..
+          //i keep delving down the rabbit hole...
+
 
 
         // Create a test URLSearchParams object
         var searchParams = new URLSearchParams("key1=value1&key2=value2");
+
+
 
         //var allParams = [];
         var allParams = {};
@@ -152,7 +199,7 @@ function updateUrlAndHistory() {
           allParams[keyy] = value;
         });
 
-        console.log(allParams);
+        console.log("allParams", allParams);
 
         /*
         formerly printed out... when using  allParams.push({keyy, value});...
@@ -189,12 +236,4 @@ function updateUrlAndHistory() {
         // Pass in a record
         var params4 = new URLSearchParams({"foo" : 1 , "bar" : 2});
 
-        break;
-      case "http:":
-      case "https:":
-        //pathname: "/hart-chart/" (at least on Github)
-        break;
-      default:
-        //
-    }
 }
