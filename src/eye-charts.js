@@ -120,13 +120,18 @@ function updateUrlAndHistory() {
         // Retrieve params via url.search, passed into ctor
         //var params = new URLSearchParams();
 
-        const params = new URLSearchParams();
+        //const params = new URLSearchParams();
+        const params = new URLSearchParams(window.location.search);
         params.append('api_key', '1');
         params.append('foo', '1');
         params.append('baR', '122');
         params.append('api_key', '1');
 
-        console.log(url.search, url.searchParams, params); //url.search, 
+        //TODO: better understand access restrictions possible within JS objects...
+        //eg why can't i see contents of this, and how can i build an equivalent myself, and verify if 
+        console.dir(url.search); //url.search, 
+        console.dir(url.searchParams); //url.search, 
+        console.dir(params); //url.search, 
 
         console.log(params.get('baR')); /// fuck ... ok!!! yikes!!
         console.log(params.entries); //does nothing useful... shows "[native code]"
