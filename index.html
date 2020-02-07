@@ -47,8 +47,7 @@
                 case "http:":
                 case "https:":
                     //pathname: "/hart-chart/" (at least on Github)
-                    console.log(window.location);
-                    window.history.pushState({}, document.title, "/hart-chart/");
+                    window.history.pushState({}, document.title, window.history.pathname);
                     generate_grid();
                     break;
                 default:
@@ -67,14 +66,6 @@
                     var fullPath = fetchFullUrl();
                     copyTextToClipboard(fullPath);
             });
-
-
-            // var resetButton = document.querySelector('#reset-button');
-            //     resetButton.addEventListener('click', function(event) {
-            //         var fullPath = fetchFullUrl();
-            //         copyTextToClipboard(fullPath);
-            // });
-
 
         }
     </script>
