@@ -9,6 +9,23 @@
 
     <script>
 
+        function generate_grid() {
+            var letters = "";
+            var param = fetchUrlParams();
+            if (param)
+            {
+                letters = param;
+            }
+            else
+            {
+                letters = randomLetters(64);
+                updateUrlAndHistory(letters);
+            }
+
+            var inputElement = document.getElementById('yoDawg');
+            createElementGridCellIn(letters, inputElement);
+        }
+
         function launch_toast() {
             var x = document.getElementById("toast")
             x.className = "show";
@@ -32,6 +49,7 @@
                     //pathname: "/hart-chart/" (at least on Github)
                     console.log(window.location);
                     window.history.pushState({}, document.title, "/hart-chart/");
+                    generate_grid();
                     break;
                 default:
                 //
@@ -41,21 +59,7 @@
 
         window.onload = function() {
 
-            var letters = "";
-            var param = fetchUrlParams();
-            if (param)
-            {
-                letters = param;
-            }
-            else
-            {
-                letters = randomLetters(64);
-                updateUrlAndHistory(letters);
-            }
-
-            var inputElement = document.getElementById('yoDawg');
-            createElementGridCellIn(letters, inputElement);
-
+            generate_grid();
 
             //this approach is redundant ... as i've already embedded a link with onclick...
             var shareButton = document.querySelector('#share-button');
