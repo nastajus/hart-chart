@@ -30,8 +30,8 @@
                 case "http:":
                 case "https:":
                     //pathname: "/hart-chart/" (at least on Github)
-                    console.log(window.location, window.location.pathname);
-                    //window.history.pushState({}, document.title, "/" + window.history.pathname);    
+                    console.log(window.location);
+                    window.history.pushState({}, document.title, window.history.origin + window.history.pathname);    
                     break;
                 default:
                 //
