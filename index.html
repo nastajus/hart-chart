@@ -15,15 +15,39 @@
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
         }
 
+
+        function resetUrlParams() {
+            //window.location.pathname = window.location.href;
+            //window.location.reload();
+
+
+            switch (window.location.protocol) {
+                case "file:":
+                    //todo: better handling of this
+                    alert("You should open your files via an Webserver. Because you cannot change location history on the file:// api"); 
+                    break;
+
+                case "http:":
+                case "https:":
+                    //pathname: "/hart-chart/" (at least on Github)
+                    console.log(window.location, window.location.pathname);
+                    window.history.pushState({}, document.title, "/" + window.history.pathname);    
+                    break;
+                default:
+                //
+
+            }
+        }
+
         window.onload = function() {
 
-            var letters = "";            
+            var letters = "";
             var param = fetchUrlParams();
-            if (param) 
-            { 
+            if (param)
+            {
                 letters = param;
             }
-            else 
+            else
             {
                 letters = randomLetters(64);
                 updateUrlAndHistory(letters);
@@ -33,11 +57,19 @@
             createElementGridCellIn(letters, inputElement);
 
 
+            //this approach is redundant ... as i've already embedded a link with onclick...
             var shareButton = document.querySelector('#share-button');
                 shareButton.addEventListener('click', function(event) {
                     var fullPath = fetchFullUrl();
                     copyTextToClipboard(fullPath);
             });
+
+
+            // var resetButton = document.querySelector('#reset-button');
+            //     resetButton.addEventListener('click', function(event) {
+            //         var fullPath = fetchFullUrl();
+            //         copyTextToClipboard(fullPath);
+            // });
 
 
         }
@@ -57,11 +89,22 @@
         <img src="pics/share-button-50px-white.png">
         <span>SHARE</span>
     </button>
-    
-    
+
+
+     <!-- 
+         onclick="resetUrlParams()" 
+         :70 Uncaught ReferenceError: resetUrlParams is not defined at HTMLButtonElement.onclick
+         ... I see, onclick can't reference from external file... at least not this way...
+    -->
+    <button id="reset-button" onclick="resetUrlParams()">
+        <img src="pics/reset-50px-white.png">
+        <span>RESET</span>
+    </button>
+
+
 
     <!-- http://jsfiddle.net/m8x1g0q8/ -->
     <div id="toast"><div id="img" style="display: none;" >Icon</div><div id="desc">Copied to clipboard!</div></div>
-    
+
 </body>
 </html>
