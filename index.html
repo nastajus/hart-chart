@@ -9,34 +9,13 @@
 
     <script>
 
-
-
-
-function launch_toast() {
-    var x = document.getElementById("toast")
-    x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
-}
+        function launch_toast() {
+            var x = document.getElementById("toast")
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+        }
 
         window.onload = function() {
-
-            var copyBobBtn = document.querySelector('.js-copy-bob-btn'),
-            copyJaneBtn = document.querySelector('.js-copy-jane-btn');
-
-            copyBobBtn.addEventListener('click', function(event) {
-                copyTextToClipboard('Bob');
-            });
-
-
-            copyJaneBtn.addEventListener('click', function(event) {
-                copyTextToClipboard('Jane');
-            });
-
-
-
-
-
-
 
             var letters = "";            
             var param = fetchUrlParams();
@@ -53,6 +32,14 @@ function launch_toast() {
             var inputElement = document.getElementById('yoDawg');
             createElementGridCellIn(letters, inputElement);
 
+
+            var shareButton = document.querySelector('#share-button');
+                shareButton.addEventListener('click', function(event) {
+                    var fullPath = fetchFullUrl();
+                    copyTextToClipboard(fullPath);
+            });
+
+
         }
     </script>
 
@@ -66,28 +53,15 @@ function launch_toast() {
         <!-- insert dynamically here -->
     </div>
 
-    <div style="display:inline-block; vertical-align:top;">
-        <button class="js-copy-bob-btn">Set clipboard to BOB</button><br /><br />
-        <button class="js-copy-jane-btn">Set clipboard to JANE</button>
-      </div>
-
-      <!-- <div style="display:inline-block;">
-        <textarea class="js-test-textarea" cols="35" rows="4">Try pasting into here to see what you have on your clipboard:
-        </textarea>
-      </div> -->
-
-    </div>
-
-    <button>
+    <button id="share-button" onclick="launch_toast()">
         <img src="pics/share-button-50px-white.png">
         <span>SHARE</span>
     </button>
     
     
 
-    <!-- http://jsfiddle.net/m8x1g0q8/ -->        
-    <button onclick="launch_toast()">Show Toast</button>
-    <div id="toast"><div id="img">Icon</div><div id="desc">A notification message..A notification message..A notification message..A notification message..</div></div>
+    <!-- http://jsfiddle.net/m8x1g0q8/ -->
+    <div id="toast"><div id="img" style="display: none;" >Icon</div><div id="desc">Copied to clipboard!</div></div>
     
 </body>
 </html>

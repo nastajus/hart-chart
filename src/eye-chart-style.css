@@ -25,6 +25,10 @@ button {
 
 
 
+ /*
+  * source, modified from here: http://jsfiddle.net/m8x1g0q8/ 
+  * Toast Notification Pure Vanilla JS - CodePen
+  */
 
 #toast {
     visibility: hidden;
