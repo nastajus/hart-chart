@@ -47,8 +47,8 @@
                 case "http:":
                 case "https:":
                     //pathname: "/hart-chart/?q=ABCDEF..." 
-                    //pathname: "/hart-chart/" (at least on Github)... except when i got stuff along the ride...                    
-                    window.history.pushState({}, document.title, window.history.pathname.split()[0]);
+                    //pathname: "/hart-chart/" (at least on Github)... except when i got stuff along the ride... 
+                    window.history.pushState({}, document.title, "/hart-chart/");
                     generate_grid();
                     break;
                 default:
