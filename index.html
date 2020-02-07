@@ -9,6 +9,15 @@
 
     <script>
 
+
+
+
+function launch_toast() {
+    var x = document.getElementById("toast")
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+}
+
         window.onload = function() {
 
             var copyBobBtn = document.querySelector('.js-copy-bob-btn'),
@@ -22,6 +31,10 @@
             copyJaneBtn.addEventListener('click', function(event) {
                 copyTextToClipboard('Jane');
             });
+
+
+
+
 
 
 
@@ -65,11 +78,16 @@
 
     </div>
 
-    <button id="close-image">
+    <button>
         <img src="pics/share-button-50px-white.png">
         <span>SHARE</span>
     </button>
     
+    
+
+    <!-- http://jsfiddle.net/m8x1g0q8/ -->        
+    <button onclick="launch_toast()">Show Toast</button>
+    <div id="toast"><div id="img">Icon</div><div id="desc">A notification message..</div></div>
     
 </body>
 </html>
