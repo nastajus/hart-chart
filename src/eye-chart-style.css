@@ -1,5 +1,5 @@
 * {
-    font-size: 50px; 
+    
 }
 
 .grid-container {
@@ -8,6 +8,7 @@
     grid-gap: 10px;
     justify-items: center;
     justify-content: center;
+    font-size: 50px; 
 }
 
 .grid-item {
@@ -16,23 +17,37 @@
 
 
 button {
-    display: inline-block;
-    height: 134px;
+    /* display: inline-block; */
+    /* display: flex;
     padding: 0;
     margin: 0;
-    vertical-align: top;
-    width: 104px;
+    vertical-align: middle; */
+
+    display: inline-flex;
+    align-items: center; 
+  
 }
 
-#close-image img {
-    display: block;
-    height: 130px;  
-    width: 100px;
+
+
+#close-image imgg {
+    /* display: inline-block; */
+    /* display: block; */
+    /* vertical-align: middle; */
+    float:left;
+    height: 50px;  
+    width: 50px;
 }
 
-#close-CSS {
-    background-image: url( '../pics/share-button-50px-white.png' );
-    background-size: cover;
-    height: 134px;  
-    width: 104px;
+
+button spann {
+    float:right;
+    width:80%;
+  
+    /* display: inline-block;
+    height: 54px;
+    white-space: normal;
+    vertical-align: middle;
+    text-align:center;
+    background-color: cadetblue; */
 }
