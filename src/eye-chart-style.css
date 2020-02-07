@@ -1,6 +1,31 @@
-* {
-    
+/* 
+ * sticky footer start
+ * requires each of: html, body, and .bottomFooter
+ * courtesy: https://stackoverflow.com/questions/29069498/how-to-make-a-sticky-footer-using-css
+ */
+html {
+    position: relative;
+    min-height: 100%;
 }
+body {
+    margin: 0 0 100px; /* bottom = footer height */
+}
+
+.bottomFooter {
+    /* center */
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    
+    /* sticky footer */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;    
+}
+/* sticky footer end */
+
 
 .grid-container {
     display: grid;
@@ -23,11 +48,7 @@ button {
 
 
 
-.centerFlex {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-}
+
 
 .vertSpacer {
     height: 100px;
@@ -40,12 +61,13 @@ button {
 
 
 
+
 /* On screens that are 750px or less, set the background color to blue */
 @media screen and (max-width: 750px) {
     .grid-container {
         font-size: 12px;
     }
-  }
+}
   
   
 
