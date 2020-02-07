@@ -32,7 +32,7 @@ button {
 
 #close-CSS {
     background-image: url( '../pics/share-button-50px-white.png' );
-    background-size: 100px 130px;
+    background-size: cover;
     height: 134px;  
     width: 104px;
 }
