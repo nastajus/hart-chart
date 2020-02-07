@@ -24,6 +24,11 @@ function createElementGridCellIn(inputLetters, insideElement) {
     if (typeof inputLetters != 'string') return;
     if (!isElement(insideElement)) return;
 
+    //clear all children ... from a previous load
+    while (insideElement.firstChild) {
+      insideElement.removeChild(insideElement.firstChild);
+    }
+  
     /* splits apart per character with just '' */
     var chars = inputLetters.split('');
 
