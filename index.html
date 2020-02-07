@@ -81,21 +81,26 @@
         <!-- insert dynamically here -->
     </div>
 
-    <button id="share-button" onclick="launch_toast()">
-        <img src="pics/share-button-50px-white.png">
-        <span>SHARE</span>
-    </button>
 
+    <div class="centerFlex vertSpacer">
+        <button id="share-button" onclick="launch_toast()">
+            <img src="pics/share-button-50px-white.png">
+            <span>SHARE</span>
+        </button>
+    
 
-     <!-- 
-         onclick="resetUrlParams()" 
-         :70 Uncaught ReferenceError: resetUrlParams is not defined at HTMLButtonElement.onclick
-         ... I see, onclick can't reference from external file... at least not this way...
-    -->
-    <button id="reset-button" onclick="resetUrlParams()">
-        <img src="pics/reset-50px-white.png">
-        <span>RESET</span>
-    </button>
+        <span class="horizSpacer"></span>
+
+         <!-- 
+             onclick="resetUrlParams()" 
+             :70 Uncaught ReferenceError: resetUrlParams is not defined at HTMLButtonElement.onclick
+             ... I see, onclick can't reference from external file... at least not this way...
+        -->
+        <button id="reset-button" onclick="resetUrlParams()">
+            <img src="pics/reset-50px-white.png">
+            <span>RESET</span>
+        </button>    
+    </div>
 
 
 

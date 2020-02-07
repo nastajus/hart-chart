@@ -23,6 +23,32 @@ button {
 
 
 
+.centerFlex {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.vertSpacer {
+    height: 100px;
+}
+
+.horizSpacer {
+    width: 20px;
+}
+
+
+
+
+/* On screens that are 750px or less, set the background color to blue */
+@media screen and (max-width: 750px) {
+    .grid-container {
+        font-size: 12px;
+    }
+  }
+  
+  
+
 
 
  /*
