@@ -98,7 +98,7 @@ function fetchUrlParams() {
 //not thoroughly tested...
 function fetchFullUrl() {
   if ('URLSearchParams' in window) {
-    return window.location.pathname + '?' + window.location.search;
+    return `${window.location.pathname}${window.location.search}`;
   }
 }
 
