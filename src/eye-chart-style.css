@@ -28,8 +28,8 @@ button {
 
 #toast {
     visibility: hidden;
-    max-width: 50px;
-    height: 50px;
+    width: 350px;
+    height: 54px;
     /*margin-left: -125px;*/
     margin: auto;
     background-color: #333;
@@ -39,7 +39,8 @@ button {
 
     position: fixed;
     z-index: 1;
-    left: 0;right:0;
+    left: 0;
+    right: 0;
     bottom: 30px;
     font-size: 17px;
     white-space: nowrap;
@@ -47,27 +48,23 @@ button {
 #toast #img{
 	width: 50px;
 	height: 50px;
-    
     float: left;
-    
     padding-top: 16px;
     padding-bottom: 16px;
-    
     box-sizing: border-box;
-
-    
     background-color: #111;
     color: #fff;
 }
-#toast #desc{
 
+#toast #desc{
     color: #fff;
-    background-color: #111;
-   
-    padding: 16px;
-    
+    background-color: #111;   
+    height: 50px;
+    line-height: 50px;
     overflow: hidden;
-	white-space: nowrap;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 16px;
 }
 
 #toast.show {
@@ -84,34 +81,6 @@ button {
 @keyframes fadein {
     from {bottom: 0; opacity: 0;}
     to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes expand {
-    from {min-width: 50px} 
-    to {min-width: 350px}
-}
-
-@keyframes expand {
-    from {min-width: 50px}
-    to {min-width: 350px}
-}
-@-webkit-keyframes stay {
-    from {min-width: 350px} 
-    to {min-width: 350px}
-}
-
-@keyframes stay {
-    from {min-width: 350px}
-    to {min-width: 350px}
-}
-@-webkit-keyframes shrink {
-    from {min-width: 350px;} 
-    to {min-width: 50px;}
-}
-
-@keyframes shrink {
-    from {min-width: 350px;} 
-    to {min-width: 50px;}
 }
 
 @-webkit-keyframes fadeout {
