@@ -24,6 +24,26 @@
 
             var inputElement = document.getElementById('yoDawg');
             createElementGridCellIn(letters, inputElement);
+
+        }
+
+        //for now for desktop... 
+        function set_grid_size() {
+            
+            var yo = [];
+            //Uncaught TypeError: letters.forEach is not a function
+            //letters.forEach(c =>  yo.push(c, getTextWidth(c, "normal 12pt Lucida Console")) )
+
+            //logic error ... loses string of c...
+            //for (const c of letters) { yo.push( { c : getTextWidth(c, "normal 12pt Lucida Console") } ); }
+
+            //achieves desired result.
+            for (var x = 0, c=''; c = letters.charAt(x); x++) { 
+                yo[x] = {};
+                yo[x][c] = getTextWidth(c, "normal 12pt Lucida Console");
+            }
+
+            console.log(yo);
         }
 
         function launch_toast() {
@@ -34,9 +54,6 @@
 
 
         function resetUrlParams() {
-            //window.location.pathname = window.location.href;
-            //window.location.reload();
-
 
             switch (window.location.protocol) {
                 case "file:":
