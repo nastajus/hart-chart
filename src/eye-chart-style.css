@@ -1,24 +1,8 @@
  
 * {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-
-    
-    /*
-    does nothing!! ;;;
-    letter-spacing: 0;
-
-    font-feature-settings: "liga" 0;
-
-    font-variant-ligatures: 0;
-    font-kerning: 0;
-    letter-spacing:     0;
-    text-rendering: 0;
-    font-feature-settings: 0;
-    font-kerning: 0;
-    -webkit-font-smoothing: 0;
-    text-size-adjust:0;
-    */
-
+    font-family: "Lucida Console", sans-serif;
+    line-height: .65 ; /*!important*/
+    letter-spacing: -.05em;
 } 
 
 
@@ -64,6 +48,11 @@ body {
 
 .grid-item {
 
+}
+
+.grid-container div {
+    padding:0;
+    margin:0;
 }
 
 

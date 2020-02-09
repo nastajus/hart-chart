@@ -8,8 +8,9 @@ function randomLetters(quantity) {
  
     var alphabetResults = "";
 
+    //exclude i, j (too thin)
     do {
-        var anyAlphabetResult = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, quantity);
+        var anyAlphabetResult = Math.random().toString(36).replace(/[^abcdefghklmnopqrstuvwxyz]+/g, '').substr(0, quantity);
 
         alphabetResults += uniqueInOrder(anyAlphabetResult);
     } 
@@ -40,18 +41,23 @@ function createElementGridCellIn(inputLetters, insideElement) {
 
     }
 
+
     chars.forEach(function (c, i) {
       //console.log('%d: %s', i, c);
       var newElement = document.createElement('div');
       newElement.id = i;
       newElement.className = "grid-item";
-      newElement.innerHTML = c;
-      newElement.style.backgroundColor = 'red';
-      
+      newElement.innerHTML = c + c;
       insideElement.appendChild(newElement);
-      console.log(getCssOf(newElement, 'font'));
-      
 
+      var height = getCssOf(newElement, 'height');
+      console.log (height);
+      //newElement.style.width = height;
+      newElement.style.alignContent = 'center';
+      
+      //newElement.style.backgroundColor = 'red';
+      //newElement.style.height = '12px';
+  
     });
   
 }
@@ -221,6 +227,8 @@ function copyTextToClipboard(text) {
  * 
  * Courtesy of: 
  * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+ * 
+ * usage: console.log(getTextWidth("hello there!", "bold 12pt arial")); 
  */
 function getTextWidth(text, font) {
   // re-use canvas object for better performance
@@ -231,7 +239,6 @@ function getTextWidth(text, font) {
   return metrics.width;
 }
 
-//console.log(getTextWidth("hello there!", "bold 12pt arial")); 
 
 
 /**
