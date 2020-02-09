@@ -303,19 +303,41 @@ function myFunction(x) {
   //   return sheet.includes('eye-chart-style');
   // });
 
+  
 
-  var myCSS = setStyle('*{ color:red; }');
-  setStyle('*{ color:blue; }', myCSS); // Replaces the previous CSS with this one
+
 
 
   console.log(document.styleSheets[0]);
   console.log("asdf");
   if (x.matches) { // If media query matches
     console.log("qwe");
-    document.body.style.backgroundColor = "yellow";
+
+    var smallCss = setStyle(`
+    .grid-container {
+        font-size: 12px;
+    }
+
+    button img {
+        width: 25px;
+        height: 25px;
+    }
+  `);
+    
   } else {
     console.log("zxcv");
-    document.body.style.backgroundColor = "pink";
+
+    var bigCss = setStyle(`
+    .grid-container {
+      font-size: 50px;
+    }
+
+    button img {
+        width: 50px;
+        height: 50px;
+    }
+  `);  
+  
   }
 }
 
