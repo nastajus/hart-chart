@@ -33,8 +33,11 @@
             toggleCss(matchResult) // Call listener function at run time
             matchResult.addListener(toggleCss) // Attach listener function on state changes
 
+            return letters;
+
         }
 
+        //i think i wanna get rid of this...
         //for now for desktop... 
         function set_grid_size(letters, whichElem) {
             
@@ -48,9 +51,6 @@
             var averageWidth = total / letters.length;
             // return averageWidth;
             // console.log(letterWidths);
-
-            whichElem
-            
 
         }
 
