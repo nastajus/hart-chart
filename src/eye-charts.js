@@ -69,6 +69,8 @@ function createElementGridCellIn(inputLetters, insideElement) {
  */
 function padElementsIn(parentGridElement) {
 
+console.log("haere")
+
   var arrayParentElement = Array.from(parentGridElement.children);
 
   var totalPaddingHorizontal = 0;
@@ -92,7 +94,6 @@ function padElementsIn(parentGridElement) {
     totalPaddingHorizontal += paddingHorizontal;
 
 
-
     //using 'height' causes horrible cascading varying padding. font-size is stable, for now, with px at least.
     //using 'font-size' gives a predictable number and results in consistent sizing.
     //var heightUnits = getCssOf(newElement, 'height');
@@ -110,8 +111,8 @@ function padElementsIn(parentGridElement) {
 
   }
 
-  var averagePaddingHorizontal = totalPaddingHorizontal / parentGridElement.children;
-  var averagePaddingVertical = totalPaddingVertical / parentGridElement.children;
+  var averagePaddingHorizontal = totalPaddingHorizontal / parentGridElement.children.length;
+  var averagePaddingVertical = totalPaddingVertical / parentGridElement.children.length;
 
   var anyElementWithFontUnits = getCssOf(parentGridElement.firstElementChild, 'font-size');
   var theUnits = anyElementWithFontUnits.match(regex)[1];
