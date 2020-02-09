@@ -1,6 +1,6 @@
  
 * {
-    font-family: "Lucida Console", sans-serif;
+    font-family: "Lucida Console", "Lucida Sans Unicode" sans-serif;
 } 
 
 
@@ -34,15 +34,8 @@ body {
 
 
 .grid-container {
-    display: grid;
-    /* grid-template-columns: auto auto auto auto auto auto auto auto; */
-    /* grid-gap: 10px; */
-    justify-items: center;
-    justify-content: center;
-    /* font-size: 50px;  */
-    
+    /* dynamically populated ... */
 }
-
 
 
 .grid-container div {
