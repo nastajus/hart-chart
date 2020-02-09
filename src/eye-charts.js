@@ -45,6 +45,15 @@ function createElementGridCellIn(inputLetters, insideElement) {
 
     //the hacks... yuck...
     window.parentGridElement = insideElement;
+
+    var rowSize = Math.pow(insideElement.childElementCount, 0.5);
+
+    //grid-template-columns: auto auto auto auto auto auto auto auto;
+    //sett();
+    //console.log(getStyle('.grid-container'));
+    //createCSSSelector('.grid-template-columns', 'auto auto auto auto auto auto auto auto;');
+
+    
   
 }
 
@@ -311,8 +320,10 @@ function getCssOf( element, property ) {
 
 /**
  * Uses JavaScript to conditionally trigger CSS update. 
- * Why? a simple media query would've sufficed for mere CSS flips, however it became necessary to determine padding *after* font-size is applied as well. 
  * @example: var matchResult = window.matchMedia("(max-width: 750px)")
+ * 
+ * Why? a simple media query would've sufficed for mere CSS flips, however it became necessary to determine padding *after* font-size is applied as well. 
+ * I wanted to centralize in one area both operations... it might make sense to undo it... but I'm unsure of the race-condition, and I'll skip experimenting... and besides, it's cool.
  */
 function toggleCss(x) {
 
@@ -383,3 +394,113 @@ function setStyle(cssText) {
       return node;
   })(cssText);
 };
+
+
+function sett() {
+  var rules = [];
+  // if (document.styleSheets[2].cssRules)
+  //     rules = document.styleSheets[2].cssRules;
+  // else if (document.styleSheets[2].rules)
+  //     rules = document.styleSheets[2].rules;
+  console.log(document.styleSheets);
+  rules[0].style.color = 'red';
+}
+
+
+
+/**
+ * Uncaught DOMException: Failed to read the 'rules' property from 'CSSStyleSheet': Cannot access rules
+ * 
+ * CIRCA 2018 
+ * As of Chrome 64, new CORS rules are enforced for stylesheets. You'll need to use a local development server to do local testing of functionality that depends on the CSS Object Model. For details, see Cannot access cssRules from local css file in Chrome.
+ * @see: https://stackoverflow.com/questions/49088507/cannot-access-rules-in-external-cssstylesheet
+ */
+
+
+/**
+ * @example: alert(getStyle('.test'));
+ * @see: https://stackoverflow.com/questions/324486/how-do-you-read-css-rule-values-with-javascript
+ */
+function getStyle(className) {
+  var cssText = "";
+  var classes = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
+  for (var x = 0; x < classes.length; x++) {        
+      if (classes[x].selectorText == className) {
+          cssText += classes[x].cssText || classes[x].style.cssText;
+      }         
+  }
+  return cssText;
+}
+
+
+
+/**
+ * @see: https://stackoverflow.com/questions/1720320/how-to-dynamically-create-css-class-in-javascript-and-apply
+ * @example: createCSSSelector('.mycssclass', 'display:none');
+ * 
+ */
+
+function createCSSSelector (selector, style) {
+  if (!document.styleSheets) return;
+  if (document.getElementsByTagName('head').length == 0) return;
+
+  var styleSheet,mediaType;
+
+  if (document.styleSheets.length > 0) {
+    for (var i = 0, l = document.styleSheets.length; i < l; i++) {
+      if (document.styleSheets[i].disabled) 
+        continue;
+      var media = document.styleSheets[i].media;
+      mediaType = typeof media;
+
+      if (mediaType === 'string') {
+        if (media === '' || (media.indexOf('screen') !== -1)) {
+          styleSheet = document.styleSheets[i];
+        }
+      }
+      else if (mediaType=='object') {
+        if (media.mediaText === '' || (media.mediaText.indexOf('screen') !== -1)) {
+          styleSheet = document.styleSheets[i];
+        }
+      }
+
+      if (typeof styleSheet !== 'undefined') 
+        break;
+    }
+  }
+
+  if (typeof styleSheet === 'undefined') {
+    var styleSheetElement = document.createElement('style');
+    styleSheetElement.type = 'text/css';
+    document.getElementsByTagName('head')[0].appendChild(styleSheetElement);
+
+    for (i = 0; i < document.styleSheets.length; i++) {
+      if (document.styleSheets[i].disabled) {
+        continue;
+      }
+      styleSheet = document.styleSheets[i];
+    }
+
+    mediaType = typeof styleSheet.media;
+  }
+
+  if (mediaType === 'string') {
+    for (var i = 0, l = styleSheet.rules.length; i < l; i++) {
+      if(styleSheet.rules[i].selectorText && styleSheet.rules[i].selectorText.toLowerCase()==selector.toLowerCase()) {
+        styleSheet.rules[i].style.cssText = style;
+        return;
+      }
+    }
+    styleSheet.addRule(selector,style);
+  }
+  else if (mediaType === 'object') {
+    var styleSheetLength = (styleSheet.cssRules) ? styleSheet.cssRules.length : 0;
+    for (var i = 0; i < styleSheetLength; i++) {
+      if (styleSheet.cssRules[i].selectorText && styleSheet.cssRules[i].selectorText.toLowerCase() == selector.toLowerCase()) {
+        styleSheet.cssRules[i].style.cssText = style;
+        return;
+      }
+    }
+    styleSheet.insertRule(selector + '{' + style + '}', styleSheetLength);
+  }
+}
