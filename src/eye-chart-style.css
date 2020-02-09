@@ -1,3 +1,27 @@
+ 
+* {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+
+    
+    /*
+    does nothing!! ;;;
+    letter-spacing: 0;
+
+    font-feature-settings: "liga" 0;
+
+    font-variant-ligatures: 0;
+    font-kerning: 0;
+    letter-spacing:     0;
+    text-rendering: 0;
+    font-feature-settings: 0;
+    font-kerning: 0;
+    -webkit-font-smoothing: 0;
+    text-size-adjust:0;
+    */
+
+} 
+
+
 /* 
  * sticky footer start
  * requires each of: html, body, and .bottomFooter
@@ -34,10 +58,12 @@ body {
     justify-items: center;
     justify-content: center;
     /* font-size: 50px;  */
+
+    
 }
 
 .grid-item {
-    
+
 }
 
 

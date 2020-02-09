@@ -24,26 +24,27 @@
 
             var inputElement = document.getElementById('yoDawg');
             createElementGridCellIn(letters, inputElement);
+            return letters;
 
         }
 
         //for now for desktop... 
-        function set_grid_size() {
+        function set_grid_size(letters, whichElem) {
             
-            var yo = [];
-            //Uncaught TypeError: letters.forEach is not a function
-            //letters.forEach(c =>  yo.push(c, getTextWidth(c, "normal 12pt Lucida Console")) )
+            var letterWidths = [];
 
-            //logic error ... loses string of c...
-            //for (const c of letters) { yo.push( { c : getTextWidth(c, "normal 12pt Lucida Console") } ); }
-
-            //achieves desired result.
             for (var x = 0, c=''; c = letters.charAt(x); x++) { 
-                yo[x] = {};
-                yo[x][c] = getTextWidth(c, "normal 12pt Lucida Console");
+                letterWidths[x] = getTextWidth(c, "normal 12pt Lucida Console");
             }
 
-            console.log(yo);
+            var total = letterWidths.reduce((a, b) => a + b, 0)
+            var averageWidth = total / letters.length;
+            // return averageWidth;
+            // console.log(letterWidths);
+
+            whichElem
+            
+
         }
 
         function launch_toast() {
@@ -76,7 +77,8 @@
 
         window.onload = function() {
 
-            generate_grid();
+            var letters = generate_grid();
+            set_grid_size(letters);
 
             //this approach is redundant ... as i've already embedded a link with onclick...
             var shareButton = document.querySelector('#share-button');

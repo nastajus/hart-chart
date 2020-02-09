@@ -32,12 +32,28 @@ function createElementGridCellIn(inputLetters, insideElement) {
     /* splits apart per character with just '' */
     var chars = inputLetters.split('');
 
-    for (var c in chars) {
-        var newElement = document.createElement('div');
-        newElement.id = chars[c]; newElement.className = "grid-item";
-        newElement.innerHTML = chars[c];
-        insideElement.appendChild(newElement);
+    //"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    var letterWidths = [];
+    for (var x = 0, c=''; c = inputLetters.charAt(x); x++) { 
+      letterWidths[x] = getTextWidth(c, `normal 12pt "Lucida Sans Unicode", "Lucida Grande", sans-serif;`); 
+      //"Lucida Sans Unicode", "Lucida Grande", sans-serif	
+
     }
+
+    chars.forEach(function (c, i) {
+      //console.log('%d: %s', i, c);
+      var newElement = document.createElement('div');
+      newElement.id = i;
+      newElement.className = "grid-item";
+      newElement.innerHTML = c;
+      newElement.style.backgroundColor = 'red';
+      
+      insideElement.appendChild(newElement);
+      console.log(getCssOf(newElement, 'font'));
+      
+
+    });
+  
 }
 
 function isElement(obj) {
@@ -218,15 +234,12 @@ function getTextWidth(text, font) {
 //console.log(getTextWidth("hello there!", "bold 12pt arial")); 
 
 
-
 /**
- * Courtesy of: 
- * https://stackoverflow.com/questions/566203/changing-css-values-with-javascript
+ * helper. courtesy: 
+ * https://stackoverflow.com/questions/7444451/how-to-get-the-actual-rendered-font-when-its-not-defined-in-css
+ * usage: css( object, 'font-size' ) 
  */
-function changeCss () 
-{
-  var cssRuleCode = document.all ? 'rules' : 'cssRules'; //account for IE and FF
-  var rule = document.styleSheets[styleIndex][cssRuleCode][ruleIndex];
-  var selector = rule.selectorText;  //maybe '#tId'
-  var value = rule.value;            //both selectorText and value are settable.
+function getCssOf( element, property ) {
+  return window.getComputedStyle( element, null ).getPropertyValue( property );
 }
+
