@@ -34,7 +34,8 @@
             matchResult.addListener(toggleCss) // Attach listener function on state changes
 
 
-            set_theme_dark() // Call at run time to initialize once.
+            var isDarkDefined = window.colorThemeNode ?  window.colorThemeNode.toDark : true;
+            set_theme_dark(isDarkDefined) // Call at run time to initialize once.
 
             return letters;
 
@@ -64,10 +65,9 @@
         }
 
 
-        function set_theme_dark() {
+        function set_theme_dark(toDark) {
 
-            var toDark;
-            if (!window.colorThemeNode) {
+            if (!window.colorThemeNode || toDark) {
                 toDark = true;
             }
             else {
@@ -75,26 +75,8 @@
             }
 
             var colorTheme = toDark ? 
-            `* { background: #333; color: #ccc; } 
-            body { 
-                scrollbar-color: #111 #222 
-            }
-            body::-webkit-scrollbar-track {
-                background: #222;
-            }
-            body::-webkit-scrollbar-thumb {
-                background-color: #111 ;
-            }
-            ` : 
-            `* { background: #ccc; color: #333; } 
-            body { scrollbar-color: #eee #ddd }
-            body::-webkit-scrollbar-track {
-                background: #ddd;
-            }
-            body::-webkit-scrollbar-thumb {
-                background-color: #eee ;
-            }
-            `;
+            `* { background: #333; color: #ccc; }` : 
+            `* { background: #ccc; color: #333; }`;
     
             window.colorThemeNode = setStyle(colorTheme, window.colorThemeNode);
             window.colorThemeNode.toDark = toDark;
