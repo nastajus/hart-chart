@@ -49,24 +49,28 @@ function createElementGridCellIn(inputLetters, insideElement) {
 }
 
 
-//rename newElement to theElement or something...
-function padElementsIn(parentElement) {
+/**
+ * the padding between letters is very dependent on the elements already being sized.
+ * hence there's two stages: 1) an application of CSS font (other func), 2) this padding process subsequently.
+ */
+function padElementsIn(parentGridElement) {
 
-
-  var arrayParentElement = Array.from(parentElement.children);
+  var arrayParentElement = Array.from(parentGridElement.children);
 
   var index = 0;
   for (var newElement of arrayParentElement) {
 
-    /* splits apart per character with just '' */
-    var rowSize = Math.pow(parentElement.childElementCount, 0.5);
+    var rowSize = Math.pow(parentGridElement.childElementCount, 0.5);
 
     //extract font unit (for reuse) and extract float with decimals (in that order...)
     var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
     var widthPx = getCssOf(newElement, 'width');
     var widthParts = widthPx.match(regex);
     var widthFloat = parseFloat(widthParts[0]);
-    var paddingHorizontal = `${widthFloat/2}${widthParts[1]}`;
+
+    //`magicNumberWidth` is eye-balled, but exactly half the letter width seems to look good.
+    var magicNumberWidth = 2;
+    var paddingHorizontal = `${widthFloat/magicNumberWidth}${widthParts[1]}`;
 
     var isLeftSide = index % rowSize == 0;
     var isRightSide = (index + 1) % rowSize == 0;
@@ -80,18 +84,22 @@ function padElementsIn(parentElement) {
     }
 
 
-    //height cascades horribly varying padding. font-size is stable, for now, with px at least.
+    //using 'height' causes horrible cascading varying padding. font-size is stable, for now, with px at least.
+    //using 'font-size' gives a predictable number and results in consistent sizing.
     //var heightPx = getCssOf(newElement, 'height');
     var heightPx = getCssOf(newElement, 'font-size');
     var heightParts = heightPx.match(regex);
     var heightFloat = parseFloat(heightParts[0]);
-    var magicNumber = 6; //eye-balled as typography includes padding anyways i can't get rid of
-    var paddingVertical = `${heightFloat/magicNumber}${heightParts[1]}`;
-
     
+    //`magicNumber` is eye-balled, as typography includes unremovable spacing beside letters I can't get rid of anyways
+    //https://medium.engineering/typography-is-impossible-5872b0c7f891
+    //"Within each box, there will be some space both above and below text. So, spacing things consistently might be trickier."
+    var magicNumberHeight = 6; 
+    var paddingVertical = `${heightFloat/magicNumberHeight}${heightParts[1]}`;
+
 
     var isTopSide = index < rowSize;
-    var isBottomSide = index > parentElement.childElementCount - rowSize - 1;
+    var isBottomSide = index > parentGridElement.childElementCount - rowSize - 1;
 
     if (!isTopSide) 
     {
@@ -103,14 +111,11 @@ function padElementsIn(parentElement) {
       newElement.style.paddingBottom = paddingVertical;      
     }
 
-
-    // newElement.style.alignContent = 'center';
     
     // newElement.style.backgroundColor = 'red';
 
     // newElement.style.height = '12px';
 
-    //console.log(newElement)
     index++;
   }
 }
@@ -185,7 +190,7 @@ function fetchFullUrl() {
 
 /**
  * no time, just do. make work, plz.
- * https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
+ * @see https://stackoverflow.com/questions/5999118/how-can-i-add-or-update-a-query-string-parameter
  */
 function addParm(key, val) {
   
@@ -208,7 +213,7 @@ function addParm(key, val) {
 
 /**
  * Courtesy of: 
- * https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+ * @see https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
  */
 function copyTextToClipboard(text) {
   var textArea = document.createElement("textarea");
@@ -281,7 +286,7 @@ function copyTextToClipboard(text) {
  * Courtesy of: 
  * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
  * 
- * usage: console.log(getTextWidth("hello there!", "bold 12pt arial")); 
+ * @example: console.log(getTextWidth("hello there!", "bold 12pt arial")); 
  */
 function getTextWidth(text, font) {
   // re-use canvas object for better performance
@@ -296,14 +301,19 @@ function getTextWidth(text, font) {
 
 /**
  * helper. courtesy: 
- * https://stackoverflow.com/questions/7444451/how-to-get-the-actual-rendered-font-when-its-not-defined-in-css
- * usage: css( object, 'font-size' ) 
+ * @see https://stackoverflow.com/questions/7444451/how-to-get-the-actual-rendered-font-when-its-not-defined-in-css
+ * @example: css( object, 'font-size' ) 
  */
 function getCssOf( element, property ) {
   return window.getComputedStyle( element, null ).getPropertyValue( property );
 }
 
 
+/**
+ * Uses JavaScript to conditionally trigger CSS update. 
+ * Why? a simple media query would've sufficed for mere CSS flips, however it became necessary to determine padding *after* font-size is applied as well. 
+ * @example: var matchResult = window.matchMedia("(max-width: 750px)")
+ */
 function toggleCss(x) {
 
   //not sure why i needed to put the full css path for ".grid-container .grid-item" to work...
@@ -354,23 +364,12 @@ function toggleCss(x) {
 
 
 
-// /**
-//  * Courtesy of: 
-//  * https://stackoverflow.com/questions/566203/changing-css-values-with-javascript
-//  */
-// function changeCss () 
-// {
-//   var cssRuleCode = document.all ? 'rules' : 'cssRules'; //account for IE and FF
-//   var rule = document.styleSheets[styleIndex][cssRuleCode][ruleIndex];
-//   var selector = rule.selectorText;  //maybe '#tId'
-//   var value = rule.value;            //both selectorText and value are settable.
-// }
-
-
-
 /**
  * courtesy of: 
- * https://stackoverflow.com/questions/7125453/modifying-css-class-property-values-on-the-fly-with-javascript-jquery
+ * @see https://stackoverflow.com/questions/7125453/modifying-css-class-property-values-on-the-fly-with-javascript-jquery
+ * 
+ * @example: var myCSS = setStyle('*{ color:red; }'); 
+ * @example: setStyle('*{ color:blue; }', myCSS); // Replaces the previous CSS with this one
  */
 function setStyle(cssText) {
   var sheet = document.createElement('style');
