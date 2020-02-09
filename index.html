@@ -65,6 +65,7 @@
         }
 
 
+        //TODO: improve this convoluted logic to preserve light mode too when hitting reset button
         function set_theme_dark(toDark) {
 
             if (!window.colorThemeNode || toDark) {
@@ -143,7 +144,7 @@
 
     <div class="bottomFooter vertSpacer">
 
-        <button id="share-button" onclick="set_theme_dark()">
+        <button id="night-button" onclick="set_theme_dark()">
             <img src="pics/moon-50px-white.png">
             <span>NIGHT</span>
         </button>
