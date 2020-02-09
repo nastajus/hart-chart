@@ -24,7 +24,14 @@
 
             var inputElement = document.getElementById('yoDawg');
             createElementGridCellIn(letters, inputElement);
-            return letters;
+
+
+            var matchResult = window.matchMedia("(max-width: 750px)")
+            //var x = window.matchMedia("screen and (max-width: 750px)")
+            // not sure what the purpose of "screen and" is for...
+
+            toggleCss(matchResult) // Call listener function at run time
+            matchResult.addListener(toggleCss) // Attach listener function on state changes
 
         }
 
@@ -86,14 +93,6 @@
                     var fullPath = fetchFullUrl();
                     copyTextToClipboard(fullPath);
             });
-
-            var matchResult = window.matchMedia("(max-width: 750px)")
-            //var x = window.matchMedia("screen and (max-width: 750px)")
-            // not sure what the purpose of "screen and" is for...
-
-            toggleCss(matchResult) // Call listener function at run time
-            matchResult.addListener(toggleCss) // Attach listener function on state changes
-
 
         }
     </script>
