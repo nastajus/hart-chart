@@ -69,8 +69,6 @@ function createElementGridCellIn(inputLetters, insideElement) {
  */
 function padElementsIn(parentGridElement) {
 
-console.log("haere")
-
   var arrayParentElement = Array.from(parentGridElement.children);
 
   var totalPaddingHorizontal = 0;
@@ -213,7 +211,6 @@ function fetchUrlParams() {
 //not thoroughly tested...
 function fetchFullUrl() {
   if ('URLSearchParams' in window) {
-    console.log(window.location);
     return `${window.location.origin}${window.location.pathname}${window.location.search}`;
   }
 }
