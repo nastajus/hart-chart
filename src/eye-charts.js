@@ -71,58 +71,78 @@ function padElementsIn(parentGridElement) {
 
   var arrayParentElement = Array.from(parentGridElement.children);
 
-  var index = 0;
+  var totalPaddingHorizontal = 0;
+  var totalPaddingVertical = 0;
+
+  //extract font unit (for reuse, eg px or pt) and extract float with decimals (in that order...)
+  var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
+
   for (var newElement of arrayParentElement) {
 
     var rowSize = Math.pow(parentGridElement.childElementCount, 0.5);
 
-    //extract font unit (for reuse) and extract float with decimals (in that order...)
-    var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
-    var widthPx = getCssOf(newElement, 'width');
-    var widthParts = widthPx.match(regex);
+    var widthUnits = getCssOf(newElement, 'width');
+    var widthParts = widthUnits.match(regex);
     var widthFloat = parseFloat(widthParts[0]);
 
     //`magicNumberWidth` is eye-balled, but exactly half the letter width seems to look good.
     var magicNumberWidth = 2;
-    var paddingHorizontal = `${widthFloat/magicNumberWidth}${widthParts[1]}`;
+    //var paddingHorizontal = `${widthFloat/magicNumberWidth}${widthParts[1]}`;
+    var paddingHorizontal = widthFloat/magicNumberWidth;
+    totalPaddingHorizontal += paddingHorizontal;
 
-    var isLeftSide = index % rowSize == 0;
-    var isRightSide = (index + 1) % rowSize == 0;
-
-    if (!isLeftSide) {
-      newElement.style.paddingLeft = paddingHorizontal;
-    }
-
-    if (!isRightSide) {
-      newElement.style.paddingRight = paddingHorizontal;      
-    }
 
 
     //using 'height' causes horrible cascading varying padding. font-size is stable, for now, with px at least.
     //using 'font-size' gives a predictable number and results in consistent sizing.
-    //var heightPx = getCssOf(newElement, 'height');
-    var heightPx = getCssOf(newElement, 'font-size');
-    var heightParts = heightPx.match(regex);
+    //var heightUnits = getCssOf(newElement, 'height');
+    var heightUnits = getCssOf(newElement, 'font-size');
+    var heightParts = heightUnits.match(regex);
     var heightFloat = parseFloat(heightParts[0]);
     
     //`magicNumber` is eye-balled, as typography includes unremovable spacing beside letters I can't get rid of anyways
     //https://medium.engineering/typography-is-impossible-5872b0c7f891
     //"Within each box, there will be some space both above and below text. So, spacing things consistently might be trickier."
     var magicNumberHeight = 6; 
-    var paddingVertical = `${heightFloat/magicNumberHeight}${heightParts[1]}`;
+    //var paddingVertical = `${heightFloat/magicNumberHeight}${heightParts[1]}`;
+    var paddingVertical = heightFloat/magicNumberHeight;
+    totalPaddingVertical += paddingVertical;
 
+  }
+
+  var averagePaddingHorizontal = totalPaddingHorizontal / parentGridElement.children;
+  var averagePaddingVertical = totalPaddingVertical / parentGridElement.children;
+
+  var anyElementWithFontUnits = getCssOf(parentGridElement.firstElementChild, 'font-size');
+  var theUnits = anyElementWithFontUnits.match(regex)[1];
+
+  averagePaddingHorizontal += theUnits;
+  averagePaddingVertical += theUnits;
+
+  var index = 0;
+  for (var newElement of arrayParentElement) {
+    var isLeftSide = index % rowSize == 0;
+    var isRightSide = (index + 1) % rowSize == 0;
+
+    if (!isLeftSide) {
+      newElement.style.paddingLeft = averagePaddingHorizontal;
+    }
+
+    if (!isRightSide) {
+      newElement.style.paddingRight = averagePaddingHorizontal; 
+    }    
 
     var isTopSide = index < rowSize;
     var isBottomSide = index > parentGridElement.childElementCount - rowSize - 1;
 
     if (!isTopSide) 
     {
-      newElement.style.paddingTop = paddingVertical;
+      newElement.style.paddingTop = averagePaddingVertical;
     }
 
     if (!isBottomSide) 
     {
-      newElement.style.paddingBottom = paddingVertical;      
+      newElement.style.paddingBottom = averagePaddingVertical;
     }
 
     
