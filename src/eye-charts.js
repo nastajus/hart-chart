@@ -47,11 +47,25 @@ function createElementGridCellIn(inputLetters, insideElement) {
       var newElement = document.createElement('div');
       newElement.id = i;
       newElement.className = "grid-item";
-      newElement.innerHTML = c + c;
+      newElement.innerHTML = c;
       insideElement.appendChild(newElement);
 
-      var height = getCssOf(newElement, 'height');
-      console.log (height);
+      var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
+      var heightPx = getCssOf(newElement, 'width');
+      console.log(heightPx.match(regex));
+      var matchedParts = heightPx.match(regex);
+      var parsedFloat = parseFloat(matchedParts[0]);
+      var padding = `${parsedFloat/2}${matchedParts[1]}`;
+
+
+      //  var heightPx = getCssOf(newElement, 'height');
+      //  var heightParts = heightPx.match(/[^\d]+|\d+/g);
+      //  console.log(heightParts);
+      //  var padding = `${heightParts[0]/2}${heightParts[1]}`;
+
+      newElement.style.paddingLeft = padding;
+      newElement.style.paddingRight = padding;
+      
       //newElement.style.width = height;
       newElement.style.alignContent = 'center';
       

@@ -1,8 +1,6 @@
  
 * {
     font-family: "Lucida Console", sans-serif;
-    line-height: .65 ; /*!important*/
-    letter-spacing: -.05em;
 } 
 
 
@@ -41,7 +39,7 @@ body {
     /* grid-gap: 10px; */
     justify-items: center;
     justify-content: center;
-    /* font-size: 50px;  */
+    font-size: 50px; 
 
     
 }
