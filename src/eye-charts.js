@@ -8,8 +8,8 @@ function randomLetters(quantity) {
  
     var alphabetResults = "";
 
-    //exclude i, j (too thin)
     do {
+        //exclude i, j (too thin)
         var anyAlphabetResult = Math.random().toString(36).replace(/[^abcdefghklmnopqrstuvwxyz]+/g, '').substr(0, quantity);
 
         alphabetResults += uniqueInOrder(anyAlphabetResult);
@@ -32,15 +32,6 @@ function createElementGridCellIn(inputLetters, insideElement) {
   
     /* splits apart per character with just '' */
     var chars = inputLetters.split('');
-
-    //"Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    var letterWidths = [];
-    for (var x = 0, c=''; c = inputLetters.charAt(x); x++) { 
-      letterWidths[x] = getTextWidth(c, `normal 12pt "Lucida Sans Unicode", "Lucida Grande", sans-serif;`); 
-      //"Lucida Sans Unicode", "Lucida Grande", sans-serif	
-
-    }
-
     var rowSize = Math.pow(inputLetters.length, 0.5);
 
     chars.forEach(function (c, i) {
@@ -292,3 +283,71 @@ function getCssOf( element, property ) {
   return window.getComputedStyle( element, null ).getPropertyValue( property );
 }
 
+/* @media screen and (max-width: 750px) {
+    .grid-container {
+        font-size: 12px;
+    }
+
+    button img {
+        width: 25px;
+        height: 25px;
+    }
+*/
+
+function myFunction(x) {
+
+  //console.log(document.styleSheets[0].href.includes('eye-chart-style'));
+
+  // document.styleSheets.some(function(sheet) {
+  //   console.log(sheet);
+  //   return sheet.includes('eye-chart-style');
+  // });
+
+
+  var myCSS = setStyle('*{ color:red; }');
+  setStyle('*{ color:blue; }', myCSS); // Replaces the previous CSS with this one
+
+
+  console.log(document.styleSheets[0]);
+  console.log("asdf");
+  if (x.matches) { // If media query matches
+    console.log("qwe");
+    document.body.style.backgroundColor = "yellow";
+  } else {
+    console.log("zxcv");
+    document.body.style.backgroundColor = "pink";
+  }
+}
+
+
+
+// /**
+//  * Courtesy of: 
+//  * https://stackoverflow.com/questions/566203/changing-css-values-with-javascript
+//  */
+// function changeCss () 
+// {
+//   var cssRuleCode = document.all ? 'rules' : 'cssRules'; //account for IE and FF
+//   var rule = document.styleSheets[styleIndex][cssRuleCode][ruleIndex];
+//   var selector = rule.selectorText;  //maybe '#tId'
+//   var value = rule.value;            //both selectorText and value are settable.
+// }
+
+
+
+/**
+ * courtesy of: 
+ * https://stackoverflow.com/questions/7125453/modifying-css-class-property-values-on-the-fly-with-javascript-jquery
+ */
+function setStyle(cssText) {
+  var sheet = document.createElement('style');
+  sheet.type = 'text/css';
+  /* Optional */ window.customSheet = sheet;
+  (document.head || document.getElementsByTagName('head')[0]).appendChild(sheet);
+  return (setStyle = function(cssText, node) {
+      if(!node || node.parentNode !== sheet)
+          return sheet.appendChild(document.createTextNode(cssText));
+      node.nodeValue = cssText;
+      return node;
+  })(cssText);
+};
