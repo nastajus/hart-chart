@@ -55,6 +55,7 @@ body {
 
 
 button {
+    height: 60px;
     display: inline-flex;
     align-items: center; 
 }

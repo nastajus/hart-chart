@@ -95,7 +95,7 @@ function createElementGridCellIn(inputLetters, insideElement) {
 
       newElement.style.alignContent = 'center';
       
-      newElement.style.backgroundColor = 'red';
+      //newElement.style.backgroundColor = 'red';
 
       //newElement.style.height = '12px';
 
