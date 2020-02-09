@@ -20,6 +20,7 @@ function randomLetters(quantity) {
 
 }
 
+
 function createElementGridCellIn(inputLetters, insideElement) {
     if (!inputLetters) return;
     if (typeof inputLetters != 'string') return;
@@ -30,9 +31,7 @@ function createElementGridCellIn(inputLetters, insideElement) {
       insideElement.removeChild(insideElement.firstChild);
     }
   
-    /* splits apart per character with just '' */
     var chars = inputLetters.split('');
-    var rowSize = Math.pow(inputLetters.length, 0.5);
 
     chars.forEach(function (c, i) {
       //console.log('%d: %s', i, c);
@@ -40,59 +39,63 @@ function createElementGridCellIn(inputLetters, insideElement) {
       newElement.id = i;
       newElement.className = "grid-item";
       newElement.innerHTML = c;
-      insideElement.appendChild(newElement);
-      
-
-      //extract font unit (for reuse) and extract float with decimals (in that order...)
-      var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
-      var widthPx = getCssOf(newElement, 'width');
-      var widthParts = widthPx.match(regex);
-      var widthFloat = parseFloat(widthParts[0]);
-      var paddingHorizontal = `${widthFloat/2}${widthParts[1]}`;
-
-      var isLeftSide = i % rowSize == 0;
-      var isRightSide = (i + 1) % rowSize == 0;
-
-      if (!isLeftSide) {
-        newElement.style.paddingLeft = paddingHorizontal;
-      }
-
-      if (!isRightSide) {
-        newElement.style.paddingRight = paddingHorizontal;      
-      }
-
-
-      //height cascades horribly varying padding. font-size is stable, for now, with px at least.
-      //var heightPx = getCssOf(newElement, 'height');
-      var heightPx = getCssOf(newElement, 'font-size');
-      var heightParts = heightPx.match(regex);
-      var heightFloat = parseFloat(heightParts[0]);
-      var magicNumber = 6; //eye-balled as typography includes padding anyways i can't get rid of
-      var paddingVertical = `${heightFloat/magicNumber}${heightParts[1]}`;
-
-      var isTopSide = i < rowSize;
-      var isBottomSide = i > inputLetters.length - rowSize - 1;
-
-      if (!isTopSide) 
-      {
-        newElement.style.paddingTop = paddingVertical;
-      }
-
-      if (!isBottomSide) 
-      {
-        newElement.style.paddingBottom = paddingVertical;      
-      }
-
-
-      newElement.style.alignContent = 'center';
-      
-      //newElement.style.backgroundColor = 'red';
-
-      //newElement.style.height = '12px';
-
-  
+      insideElement.appendChild(newElement); 
     });
   
+}
+
+
+//rename newElement to theElement or something...
+function padElementIn(inputLetters, newElement) {
+  /* splits apart per character with just '' */
+  var rowSize = Math.pow(inputLetters.length, 0.5);
+
+  //extract font unit (for reuse) and extract float with decimals (in that order...)
+  var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
+  var widthPx = getCssOf(newElement, 'width');
+  var widthParts = widthPx.match(regex);
+  var widthFloat = parseFloat(widthParts[0]);
+  var paddingHorizontal = `${widthFloat/2}${widthParts[1]}`;
+
+  var isLeftSide = i % rowSize == 0;
+  var isRightSide = (i + 1) % rowSize == 0;
+
+  if (!isLeftSide) {
+    newElement.style.paddingLeft = paddingHorizontal;
+  }
+
+  if (!isRightSide) {
+    newElement.style.paddingRight = paddingHorizontal;      
+  }
+
+
+  //height cascades horribly varying padding. font-size is stable, for now, with px at least.
+  //var heightPx = getCssOf(newElement, 'height');
+  var heightPx = getCssOf(newElement, 'font-size');
+  var heightParts = heightPx.match(regex);
+  var heightFloat = parseFloat(heightParts[0]);
+  var magicNumber = 6; //eye-balled as typography includes padding anyways i can't get rid of
+  var paddingVertical = `${heightFloat/magicNumber}${heightParts[1]}`;
+
+  var isTopSide = i < rowSize;
+  var isBottomSide = i > inputLetters.length - rowSize - 1;
+
+  if (!isTopSide) 
+  {
+    newElement.style.paddingTop = paddingVertical;
+  }
+
+  if (!isBottomSide) 
+  {
+    newElement.style.paddingBottom = paddingVertical;      
+  }
+
+
+  newElement.style.alignContent = 'center';
+  
+  //newElement.style.backgroundColor = 'red';
+
+  //newElement.style.height = '12px';
 }
 
 function isElement(obj) {
@@ -283,60 +286,60 @@ function getCssOf( element, property ) {
   return window.getComputedStyle( element, null ).getPropertyValue( property );
 }
 
-/* @media screen and (max-width: 750px) {
+
+function toggleCss(x, lastStyleNode) {
+
+  var smallStyle =`
     .grid-container {
-        font-size: 12px;
+      font-size: 12px;
     }
 
-    button img {
-        width: 25px;
-        height: 25px;
+    .grid-container .grid-item {
+      padding-left: 0px;
     }
-*/
-
-function myFunction(x) {
-
-  //console.log(document.styleSheets[0].href.includes('eye-chart-style'));
-
-  // document.styleSheets.some(function(sheet) {
-  //   console.log(sheet);
-  //   return sheet.includes('eye-chart-style');
-  // });
-
-  
-
-
-
-
-  console.log(document.styleSheets[0]);
-  console.log("asdf");
-  if (x.matches) { // If media query matches
-    console.log("qwe");
-
-    var smallCss = setStyle(`
-    .grid-container {
-        font-size: 12px;
-    }
-
-    button img {
-        width: 25px;
-        height: 25px;
-    }
-  `);
     
-  } else {
-    console.log("zxcv");
+    button { 
+      height: 35px;
+    }
 
-    var bigCss = setStyle(`
+    button img {
+      width: 25px;
+      height: 25px;
+    }
+  `;
+
+  var bigStyle = `
     .grid-container {
       font-size: 50px;
     }
 
-    button img {
-        width: 50px;
-        height: 50px;
+    .grid-container .grid-item {
+      padding-left: 100px;
     }
-  `);  
+
+    button { 
+      height: 60px;
+    }
+
+    button img {
+      width: 50px;
+      height: 50px;
+    }
+  `;
+
+
+  if (x.matches) { // If media query matches
+  
+    //can't pass back in from ... callback.. readily?
+    //return setStyle(smallStyle, null);
+    //return setStyle(smallStyle, lastStyleNode);
+    window.lastStyleNode = setStyle(smallStyle, window.lastStyleNode);
+    
+  } else {
+
+    //return setStyle(bigStyle, null);
+    //return setStyle(bigStyle, lastStyleNode);
+    window.lastStyleNode = setStyle(bigStyle, window.lastStyleNode);
   
   }
 }
