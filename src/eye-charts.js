@@ -40,69 +40,79 @@ function createElementGridCellIn(inputLetters, insideElement) {
       newElement.className = "grid-item";
       newElement.innerHTML = c;
       insideElement.appendChild(newElement); 
+
     });
+
+    //the hacks... yuck...
+    window.parentGridElement = insideElement;
   
 }
 
 
 //rename newElement to theElement or something...
-// function padElementIn(inputLetters, newElement) {
-function paddingSizes(inputLetters, newElement) {
-  /* splits apart per character with just '' */
-  var rowSize = Math.pow(inputLetters.length, 0.5);
-
-  //extract font unit (for reuse) and extract float with decimals (in that order...)
-  var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
-  var widthPx = getCssOf(newElement, 'width');
-  var widthParts = widthPx.match(regex);
-  var widthFloat = parseFloat(widthParts[0]);
-  var paddingHorizontal = `${widthFloat/2}${widthParts[1]}`;
-
-  // var isLeftSide = i % rowSize == 0;
-  // var isRightSide = (i + 1) % rowSize == 0;
-
-  // if (!isLeftSide) {
-  //   newElement.style.paddingLeft = paddingHorizontal;
-  // }
-
-  // if (!isRightSide) {
-  //   newElement.style.paddingRight = paddingHorizontal;      
-  // }
+function padElementsIn(parentElement) {
 
 
-  //height cascades horribly varying padding. font-size is stable, for now, with px at least.
-  //var heightPx = getCssOf(newElement, 'height');
-  var heightPx = getCssOf(newElement, 'font-size');
-  var heightParts = heightPx.match(regex);
-  var heightFloat = parseFloat(heightParts[0]);
-  var magicNumber = 6; //eye-balled as typography includes padding anyways i can't get rid of
-  var paddingVertical = `${heightFloat/magicNumber}${heightParts[1]}`;
+  var arrayParentElement = Array.from(parentElement.children);
 
-  
-  //return { horizontal: paddingHorizontal, vertical: paddingVertical }
+  var index = 0;
+  for (var newElement of arrayParentElement) {
 
-  //more disgraceful ugly code...
-  window.paddingSizes = { horizontal: paddingHorizontal, vertical: paddingVertical };
+    /* splits apart per character with just '' */
+    var rowSize = Math.pow(parentElement.childElementCount, 0.5);
 
-  // var isTopSide = i < rowSize;
-  // var isBottomSide = i > inputLetters.length - rowSize - 1;
+    //extract font unit (for reuse) and extract float with decimals (in that order...)
+    var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
+    var widthPx = getCssOf(newElement, 'width');
+    var widthParts = widthPx.match(regex);
+    var widthFloat = parseFloat(widthParts[0]);
+    var paddingHorizontal = `${widthFloat/2}${widthParts[1]}`;
 
-  // if (!isTopSide) 
-  // {
-  //   newElement.style.paddingTop = paddingVertical;
-  // }
+    var isLeftSide = index % rowSize == 0;
+    var isRightSide = (index + 1) % rowSize == 0;
 
-  // if (!isBottomSide) 
-  // {
-  //   newElement.style.paddingBottom = paddingVertical;      
-  // }
+    if (!isLeftSide) {
+      newElement.style.paddingLeft = paddingHorizontal;
+    }
+
+    if (!isRightSide) {
+      newElement.style.paddingRight = paddingHorizontal;      
+    }
 
 
-  // newElement.style.alignContent = 'center';
-  
-  // newElement.style.backgroundColor = 'red';
+    //height cascades horribly varying padding. font-size is stable, for now, with px at least.
+    //var heightPx = getCssOf(newElement, 'height');
+    var heightPx = getCssOf(newElement, 'font-size');
+    var heightParts = heightPx.match(regex);
+    var heightFloat = parseFloat(heightParts[0]);
+    var magicNumber = 6; //eye-balled as typography includes padding anyways i can't get rid of
+    var paddingVertical = `${heightFloat/magicNumber}${heightParts[1]}`;
 
-  // newElement.style.height = '12px';
+    
+
+    var isTopSide = index < rowSize;
+    var isBottomSide = index > parentElement.childElementCount - rowSize - 1;
+
+    if (!isTopSide) 
+    {
+      newElement.style.paddingTop = paddingVertical;
+    }
+
+    if (!isBottomSide) 
+    {
+      newElement.style.paddingBottom = paddingVertical;      
+    }
+
+
+    // newElement.style.alignContent = 'center';
+    
+    // newElement.style.backgroundColor = 'red';
+
+    // newElement.style.height = '12px';
+
+    //console.log(newElement)
+    index++;
+  }
 }
 
 function isElement(obj) {
@@ -303,11 +313,6 @@ function toggleCss(x) {
       font-size: 12px;
     }
 
-    .grid-container .grid-item {
-      padding-left: 0px;
-      padding-right: 0px;
-    }
-    
     button { 
       height: 35px;
     }
@@ -321,11 +326,6 @@ function toggleCss(x) {
   var bigStyle = `
     .grid-container {
       font-size: 50px;
-    }
-
-    .grid-container .grid-item {
-      padding-left: ${window.paddingSizes.horizontal};
-      padding-right: ${window.paddingSizes.horizontal};
     }
 
     button { 
@@ -342,10 +342,12 @@ function toggleCss(x) {
   if (x.matches) { // If media query matches
   
     window.lastStyleNode = setStyle(smallStyle, window.lastStyleNode);
+    padElementsIn(window.parentGridElement);
     
   } else {
 
     window.lastStyleNode = setStyle(bigStyle, window.lastStyleNode);
+    padElementsIn(window.parentGridElement);
   
   }
 }
