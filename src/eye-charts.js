@@ -41,6 +41,7 @@ function createElementGridCellIn(inputLetters, insideElement) {
 
     }
 
+    var rowSize = Math.pow(inputLetters.length, 0.5);
 
     chars.forEach(function (c, i) {
       //console.log('%d: %s', i, c);
@@ -49,28 +50,55 @@ function createElementGridCellIn(inputLetters, insideElement) {
       newElement.className = "grid-item";
       newElement.innerHTML = c;
       insideElement.appendChild(newElement);
-
-      var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
-      var heightPx = getCssOf(newElement, 'width');
-      console.log(heightPx.match(regex));
-      var matchedParts = heightPx.match(regex);
-      var parsedFloat = parseFloat(matchedParts[0]);
-      var padding = `${parsedFloat/2}${matchedParts[1]}`;
-
-
-      //  var heightPx = getCssOf(newElement, 'height');
-      //  var heightParts = heightPx.match(/[^\d]+|\d+/g);
-      //  console.log(heightParts);
-      //  var padding = `${heightParts[0]/2}${heightParts[1]}`;
-
-      newElement.style.paddingLeft = padding;
-      newElement.style.paddingRight = padding;
       
-      //newElement.style.width = height;
+
+      //extract font unit (for reuse) and extract float with decimals (in that order...)
+      var regex = /[^\d]+|[+-]?\d+(\.\d+)?/g;
+      var widthPx = getCssOf(newElement, 'width');
+      var widthParts = widthPx.match(regex);
+      var widthFloat = parseFloat(widthParts[0]);
+      var paddingHorizontal = `${widthFloat/2}${widthParts[1]}`;
+
+      var isLeftSide = i % rowSize == 0;
+      var isRightSide = (i + 1) % rowSize == 0;
+
+      if (!isLeftSide) {
+        newElement.style.paddingLeft = paddingHorizontal;
+      }
+
+      if (!isRightSide) {
+        newElement.style.paddingRight = paddingHorizontal;      
+      }
+
+
+      //height cascades horribly varying padding. font-size is stable, for now, with px at least.
+      //var heightPx = getCssOf(newElement, 'height');
+      var heightPx = getCssOf(newElement, 'font-size');
+      var heightParts = heightPx.match(regex);
+      var heightFloat = parseFloat(heightParts[0]);
+      var magicNumber = 6; //eye-balled as typography includes padding anyways i can't get rid of
+      var paddingVertical = `${heightFloat/magicNumber}${heightParts[1]}`;
+
+      var isTopSide = i < rowSize;
+      var isBottomSide = i > inputLetters.length - rowSize - 1;
+
+      if (!isTopSide) 
+      {
+        newElement.style.paddingTop = paddingVertical;
+      }
+
+      if (!isBottomSide) 
+      {
+        newElement.style.paddingBottom = paddingVertical;      
+      }
+
+
       newElement.style.alignContent = 'center';
       
-      //newElement.style.backgroundColor = 'red';
+      newElement.style.backgroundColor = 'red';
+
       //newElement.style.height = '12px';
+
   
     });
   
