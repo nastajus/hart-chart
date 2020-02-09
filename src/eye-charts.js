@@ -354,10 +354,16 @@ function getCssOf( element, property ) {
 function toggleCss(x) {
 
   //not sure why i needed to put the full css path for ".grid-container .grid-item" to work...
+
+  /*
+    pt	Points	1pt = 1/72th of 1in
+    px	Pixels	1px = 1/96th of 1in
+    px = 0.75 point.
+   */
   
   var smallStyle =`
     .grid-container {
-      font-size: 12px;
+      font-size: 12pt;
     }
 
     button { 
@@ -372,7 +378,7 @@ function toggleCss(x) {
 
   var bigStyle = `
     .grid-container {
-      font-size: 50px;
+      font-size: 38pt;
     }
 
     button { 
