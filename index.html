@@ -91,8 +91,12 @@
             //var x = window.matchMedia("screen and (max-width: 750px)")
             // not sure what the purpose of "screen and" is for...
 
-            var lastStyleNode = toggleCss(matchResult) // Call listener function at run time
-            matchResult.addListener(toggleCss, lastStyleNode) // Attach listener function on state changes
+            //yuck. assumes all same..
+            var sampleLetterDiv = document.getElementById('yoDawg').firstElementChild;
+            paddingSizes(letters, sampleLetterDiv);
+
+            toggleCss(matchResult) // Call listener function at run time
+            matchResult.addListener(toggleCss) // Attach listener function on state changes
 
 
         }

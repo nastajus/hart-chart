@@ -46,7 +46,8 @@ function createElementGridCellIn(inputLetters, insideElement) {
 
 
 //rename newElement to theElement or something...
-function padElementIn(inputLetters, newElement) {
+// function padElementIn(inputLetters, newElement) {
+function paddingSizes(inputLetters, newElement) {
   /* splits apart per character with just '' */
   var rowSize = Math.pow(inputLetters.length, 0.5);
 
@@ -57,16 +58,16 @@ function padElementIn(inputLetters, newElement) {
   var widthFloat = parseFloat(widthParts[0]);
   var paddingHorizontal = `${widthFloat/2}${widthParts[1]}`;
 
-  var isLeftSide = i % rowSize == 0;
-  var isRightSide = (i + 1) % rowSize == 0;
+  // var isLeftSide = i % rowSize == 0;
+  // var isRightSide = (i + 1) % rowSize == 0;
 
-  if (!isLeftSide) {
-    newElement.style.paddingLeft = paddingHorizontal;
-  }
+  // if (!isLeftSide) {
+  //   newElement.style.paddingLeft = paddingHorizontal;
+  // }
 
-  if (!isRightSide) {
-    newElement.style.paddingRight = paddingHorizontal;      
-  }
+  // if (!isRightSide) {
+  //   newElement.style.paddingRight = paddingHorizontal;      
+  // }
 
 
   //height cascades horribly varying padding. font-size is stable, for now, with px at least.
@@ -77,25 +78,31 @@ function padElementIn(inputLetters, newElement) {
   var magicNumber = 6; //eye-balled as typography includes padding anyways i can't get rid of
   var paddingVertical = `${heightFloat/magicNumber}${heightParts[1]}`;
 
-  var isTopSide = i < rowSize;
-  var isBottomSide = i > inputLetters.length - rowSize - 1;
-
-  if (!isTopSide) 
-  {
-    newElement.style.paddingTop = paddingVertical;
-  }
-
-  if (!isBottomSide) 
-  {
-    newElement.style.paddingBottom = paddingVertical;      
-  }
-
-
-  newElement.style.alignContent = 'center';
   
-  //newElement.style.backgroundColor = 'red';
+  //return { horizontal: paddingHorizontal, vertical: paddingVertical }
 
-  //newElement.style.height = '12px';
+  //more disgraceful ugly code...
+  window.paddingSizes = { horizontal: paddingHorizontal, vertical: paddingVertical };
+
+  // var isTopSide = i < rowSize;
+  // var isBottomSide = i > inputLetters.length - rowSize - 1;
+
+  // if (!isTopSide) 
+  // {
+  //   newElement.style.paddingTop = paddingVertical;
+  // }
+
+  // if (!isBottomSide) 
+  // {
+  //   newElement.style.paddingBottom = paddingVertical;      
+  // }
+
+
+  // newElement.style.alignContent = 'center';
+  
+  // newElement.style.backgroundColor = 'red';
+
+  // newElement.style.height = '12px';
 }
 
 function isElement(obj) {
@@ -287,8 +294,10 @@ function getCssOf( element, property ) {
 }
 
 
-function toggleCss(x, lastStyleNode) {
+function toggleCss(x) {
 
+  //not sure why i needed to put the full css path for ".grid-container .grid-item" to work...
+  
   var smallStyle =`
     .grid-container {
       font-size: 12px;
@@ -296,6 +305,7 @@ function toggleCss(x, lastStyleNode) {
 
     .grid-container .grid-item {
       padding-left: 0px;
+      padding-right: 0px;
     }
     
     button { 
@@ -314,7 +324,8 @@ function toggleCss(x, lastStyleNode) {
     }
 
     .grid-container .grid-item {
-      padding-left: 100px;
+      padding-left: ${window.paddingSizes.horizontal};
+      padding-right: ${window.paddingSizes.horizontal};
     }
 
     button { 
@@ -330,15 +341,10 @@ function toggleCss(x, lastStyleNode) {
 
   if (x.matches) { // If media query matches
   
-    //can't pass back in from ... callback.. readily?
-    //return setStyle(smallStyle, null);
-    //return setStyle(smallStyle, lastStyleNode);
     window.lastStyleNode = setStyle(smallStyle, window.lastStyleNode);
     
   } else {
 
-    //return setStyle(bigStyle, null);
-    //return setStyle(bigStyle, lastStyleNode);
     window.lastStyleNode = setStyle(bigStyle, window.lastStyleNode);
   
   }
