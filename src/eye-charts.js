@@ -375,7 +375,7 @@ function toggleCss(x) {
 
   var bigStyle = `
     .grid-container {
-      font-size: 38pt;
+      font-size: 40pt;
     }
 
     button { 
